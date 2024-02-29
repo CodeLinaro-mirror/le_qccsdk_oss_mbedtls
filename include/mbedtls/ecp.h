@@ -303,7 +303,7 @@ mbedtls_ecp_group;
  *
  * Change this value to 0 to reduce code size.
  */
-#define MBEDTLS_ECP_FIXED_POINT_OPTIM  1   /**< Enable fixed-point speed-up. */
+#define MBEDTLS_ECP_FIXED_POINT_OPTIM  0   /**< Enable fixed-point speed-up. */
 #endif /* MBEDTLS_ECP_FIXED_POINT_OPTIM */
 
 /** \} name SECTION: Module settings */

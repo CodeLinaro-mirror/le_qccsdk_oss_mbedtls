@@ -41,6 +41,7 @@ static void platform_free_uninit(void *ptr)
 #define MBEDTLS_PLATFORM_STD_FREE     platform_free_uninit
 #endif /* !MBEDTLS_PLATFORM_STD_FREE */
 
+#ifndef CONFIG_HEAP_STATISTIC
 static void * (*mbedtls_calloc_func)(size_t, size_t) = MBEDTLS_PLATFORM_STD_CALLOC;
 static void (*mbedtls_free_func)(void *) = MBEDTLS_PLATFORM_STD_FREE;
 
@@ -61,6 +62,7 @@ int mbedtls_platform_set_calloc_free(void *(*calloc_func)(size_t, size_t),
     mbedtls_free_func = free_func;
     return 0;
 }
+#endif
 #endif /* MBEDTLS_PLATFORM_MEMORY &&
           !( defined(MBEDTLS_PLATFORM_CALLOC_MACRO) &&
              defined(MBEDTLS_PLATFORM_FREE_MACRO) ) */

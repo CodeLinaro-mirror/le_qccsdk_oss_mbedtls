@@ -19,11 +19,11 @@
 
 #if defined(MBEDTLS_NET_C)
 
-#if !defined(unix) && !defined(__unix__) && !defined(__unix) && \
-    !defined(__APPLE__) && !defined(_WIN32) && !defined(__QNXNTO__) && \
-    !defined(__HAIKU__) && !defined(__midipix__)
-#error "This module only works on Unix and Windows, see MBEDTLS_NET_C in mbedtls_config.h"
-#endif
+//#if !defined(unix) && !defined(__unix__) && !defined(__unix) && \
+//    !defined(__APPLE__) && !defined(_WIN32) && !defined(__QNXNTO__) && \
+//    !defined(__HAIKU__) && !defined(__midipix__)
+//#error "This module only works on Unix and Windows, see MBEDTLS_NET_C in mbedtls_config.h"
+//#endif
 
 #include "mbedtls/platform.h"
 
@@ -63,7 +63,7 @@ static int wsa_init_done = 0;
 
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <netinet/in.h>
+//#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/time.h>
 #include <unistd.h>
@@ -84,6 +84,10 @@ static int wsa_init_done = 0;
 #else
 #define MSVC_INT_CAST
 #endif
+
+#define read(fd,buf,len)        recv( fd, (char*)( buf ), (int)( len ), 0 )
+#define write(fd,buf,len)       send( fd, (char*)( buf ), (int)( len ), 0 )
+#define close(fd)               closesocket(fd)
 
 #include <stdio.h>
 
@@ -407,6 +411,7 @@ int mbedtls_net_accept(mbedtls_net_context *bind_ctx,
 
             memcpy(client_ip, &addr4->sin_addr.s_addr, *ip_len);
         } else {
+#if LWIP_IPV6			
             struct sockaddr_in6 *addr6 = (struct sockaddr_in6 *) &client_addr;
             *ip_len = sizeof(addr6->sin6_addr.s6_addr);
 
@@ -415,6 +420,7 @@ int mbedtls_net_accept(mbedtls_net_context *bind_ctx,
             }
 
             memcpy(client_ip, &addr6->sin6_addr.s6_addr, *ip_len);
+#endif
         }
     }
 

@@ -145,9 +145,43 @@ extern "C" {
 #else
 /* For size_t */
 #include <stddef.h>
+#ifndef CONFIG_HEAP_STATISTIC
 extern void *mbedtls_calloc(size_t n, size_t size);
 extern void mbedtls_free(void *ptr);
+#else
+#ifndef vPortFree
+extern unsigned int heap_statistics_free_index;
+extern const char *heap_statistics_free[];                                         
+extern void *__vPortFree(  void *ptr );
+#define vPortFree(ptr) (({heap_statistics_free[heap_statistics_free_index%NT_HEAP_RCD_CNT]=__FUNCTION__; \
+                                            heap_statistics_free_index++;}) , \
+                                         (__vPortFree(ptr)))
+#endif
 
+#ifndef pvPortCalloc
+
+#ifndef mem_heap_statistics_type
+#define mem_heap_statistics_type mem_heap_statistics_type
+typedef struct mem_heap_statistics {
+  const char *function;
+  unsigned int req_size;
+}mem_heap_statistics_type;
+#endif
+
+extern unsigned int heap_statistics_index;
+extern mem_heap_statistics_type heap_statistics[];
+
+void *__pvPortCalloc( size_t xNum, size_t xSize );
+
+#define pvPortCalloc(n, size) (({heap_statistics[heap_statistics_index%NT_HEAP_RCD_CNT].function=__FUNCTION__; \
+                                            heap_statistics[heap_statistics_index%NT_HEAP_RCD_CNT].req_size=n*size; \
+                                            heap_statistics_index++;}) , \
+                                         (__pvPortCalloc(n, size)))
+#endif
+
+#define mbedtls_calloc(n, size) pvPortCalloc(n, size)
+#define mbedtls_free(ptr) vPortFree(ptr)
+#endif
 /**
  * \brief               This function dynamically sets the memory-management
  *                      functions used by the library, during runtime.
