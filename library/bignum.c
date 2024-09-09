@@ -35,6 +35,10 @@
 #include <limits.h>
 #include <string.h>
 
+#if CONFIG_MBEDTLS_USE_PKA
+#include "bignum_alt.h"
+#endif
+
 #include "mbedtls/platform.h"
 
 #define MPI_VALIDATE_RET(cond)                                       \
@@ -1780,6 +1784,48 @@ int mbedtls_mpi_exp_mod(mbedtls_mpi *X, const mbedtls_mpi *A,
         return MBEDTLS_ERR_MPI_BAD_INPUT_DATA;
     }
 
+#if CONFIG_MBEDTLS_USE_PKA
+	mbedtls_mpi TA, TE, TN;
+	int use_pka = 0;
+	
+	size_t sizeA = mbedtls_mpi_size(A);
+	size_t sizeE = mbedtls_mpi_size(E);
+	size_t sizeN = mbedtls_mpi_size(N);
+	/* For large operand, use hardware implementation */
+	if ((sizeA >= 32) && (sizeE >= 32) && (sizeN >= 32))
+	{
+		use_pka = 1;
+		mbedtls_mpi_init(&TA);
+		mbedtls_mpi_init(&TE);
+		mbedtls_mpi_init(&TN);
+			
+		/* mbedtls_mpi_exp_mod_hw demands the operand to be in same length */
+		size_t minSize = sizeA >= sizeE ? sizeE : sizeA;
+		minSize = minSize >= sizeN ? sizeN : minSize;
+	
+		if(minSize != A->n * ciL)
+		{
+			MBEDTLS_MPI_CHK(mbedtls_mpi_copy(&TA, A));
+			MBEDTLS_MPI_CHK(mbedtls_mpi_shrink( &TA, minSize ));
+			A = &TA;
+		}
+		if(minSize != E->n * ciL)
+		{
+			MBEDTLS_MPI_CHK(mbedtls_mpi_copy(&TE, E));
+			MBEDTLS_MPI_CHK(mbedtls_mpi_shrink( &TE, minSize ));
+			E = &TE;
+		}
+		if(minSize != N->n * ciL)
+		{
+			MBEDTLS_MPI_CHK(mbedtls_mpi_copy(&TN, N));
+			MBEDTLS_MPI_CHK(mbedtls_mpi_shrink( &TN, minSize ));
+			N = &TN;
+		}		
+		ret = mbedtls_mpi_exp_mod_hw(X, A, E, N, prec_RR);
+		goto cleanup;
+	}
+#endif
+
     /*
      * Init temps and window size
      */
@@ -2024,6 +2070,16 @@ int mbedtls_mpi_exp_mod(mbedtls_mpi *X, const mbedtls_mpi *A,
     MBEDTLS_MPI_CHK(mbedtls_mpi_copy(X, &W[x_index]));
 
 cleanup:
+
+#if CONFIG_MBEDTLS_USE_PKA
+	if (use_pka)
+	{
+		mbedtls_mpi_free(&TA);
+		mbedtls_mpi_free(&TE);
+		mbedtls_mpi_free(&TN);
+		return ret;
+	}
+#endif
 
     /* The first bit of the sliding window is always 1 and therefore the first
      * half of the table was unused. */
