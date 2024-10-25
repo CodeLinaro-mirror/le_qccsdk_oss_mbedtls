@@ -82,6 +82,17 @@
 
 #include "ecp_internal_alt.h"
 
+#if defined(MBEDTLS_SELF_TEST)
+/*
+ * Counts of point addition and doubling, and field multiplications.
+ * Used to test resistance of point multiplication to simple timing attacks.
+ */
+#if defined(MBEDTLS_ECP_C)
+static unsigned long add_count, dbl_count;
+#endif /* MBEDTLS_ECP_C */
+static unsigned long mul_count;
+#endif
+
 #if defined(MBEDTLS_ECP_C)
 static void mpi_init_many(mbedtls_mpi *arr, size_t size)
 {

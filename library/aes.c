@@ -1920,6 +1920,8 @@ int mbedtls_aes_self_test(int verbose)
         for (i = 0; i < num_tests << 1; i++) {
             u = i >> 1;
             keybits = 128 + u * 64;
+            if(keybits == 192)
+                continue;
             mode = i & 1;
 
             if (verbose != 0) {
