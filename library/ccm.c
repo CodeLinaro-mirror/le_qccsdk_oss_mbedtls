@@ -1,4 +1,10 @@
 /*
+* Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+* SPDX-License-Identifier: BSD-3-Clause-Clear
+*
+* NOT A CONTRIBUTION
+*/
+/*
  *  NIST SP800-38C compliant CCM implementation
  *
  *  Copyright The Mbed TLS Contributors
@@ -582,7 +588,7 @@ int mbedtls_ccm_auth_decrypt(mbedtls_ccm_context *ctx, size_t length,
  * Examples 1 to 3 from SP800-38C Appendix C
  */
 
-#define NB_TESTS 3
+#define NB_TESTS 1 
 #define CCM_SELFTEST_PT_MAX_LEN 24
 #define CCM_SELFTEST_CT_MAX_LEN 32
 /*
@@ -650,7 +656,7 @@ int mbedtls_ccm_self_test(int verbose)
         return 1;
     }
 
-    for (i = 0; i < 1; i++) {
+    for (i = 0; i < NB_TESTS; i++) {
         if (verbose != 0) {
             mbedtls_printf("  CCM-AES #%u: ", (unsigned int) i + 1);
         }

@@ -80,7 +80,6 @@ int mbedtls_ccm_setkey( mbedtls_ccm_context *ctx,
         return MBEDTLS_ERR_CCM_BAD_INPUT;
     }
 
-    printf("keybits is %d\n",keybits);
      if (keybits != 128 && keybits != 256) {
         AES_ALT_DBG_MSG("mbedtls_ccm_setkey: key_bitlen=%d, not supported",keybits);
         return MBEDTLS_ERR_PLATFORM_FEATURE_UNSUPPORTED;
