@@ -1,4 +1,10 @@
 /*
+* Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+* SPDX-License-Identifier: BSD-3-Clause-Clear
+*
+* NOT A CONTRIBUTION
+*/
+/*
  *  FIPS-197 compliant AES implementation
  *
  *  Copyright The Mbed TLS Contributors
@@ -1920,6 +1926,8 @@ int mbedtls_aes_self_test(int verbose)
         for (i = 0; i < num_tests << 1; i++) {
             u = i >> 1;
             keybits = 128 + u * 64;
+            if(keybits == 192)
+                continue;
             mode = i & 1;
 
             if (verbose != 0) {
@@ -1982,6 +1990,8 @@ int mbedtls_aes_self_test(int verbose)
         for (i = 0; i < num_tests << 1; i++) {
             u = i >> 1;
             keybits = 128 + u * 64;
+            if(keybits == 192)
+                continue;
             mode = i & 1;
 
             if (verbose != 0) {

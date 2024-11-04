@@ -1,4 +1,10 @@
 /*
+* Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+* SPDX-License-Identifier: BSD-3-Clause-Clear
+*
+* NOT A CONTRIBUTION
+*/
+/*
  *  FIPS-180-1 compliant SHA-1 implementation
  *
  *  Copyright The Mbed TLS Contributors
@@ -418,6 +424,12 @@ int mbedtls_sha1_self_test(int verbose)
     /*
      * SHA-1
      */
+#if defined(MBEDTLS_SHA1_ALT)
+        mbedtls_printf("  SHA1 note: alternative implementation.\n");
+#else
+        mbedtls_printf("  SHA1 note: built-in implementation.\n");
+#endif
+
     for (i = 0; i < 3; i++) {
         if (verbose != 0) {
             mbedtls_printf("  SHA-1 test #%d: ", i + 1);
@@ -475,6 +487,101 @@ exit:
     return ret;
 }
 
+int mbedtls_sha1_self_test_vi_data(int verbose)
+{
+    int ret = 0;
+    int i = 0, j=0;
+    uint32_t value=0;
+    int index = 0;
+    //data from SHA1ShortMsg.rsp
+    //Len = 8
+    //Msg = 36
+    //MD = c1dfd96eea8cc2b62785275bca38ac261256e278
+    //Len = 256
+    //Msg = 0321794b739418c24e7c2e565274791c4be749752ad234ed56cb0a6347430c6b
+    //MD = b89962c94d60f6a332fd60f6f07d4f032a58
+    uint8_t input[2][32] =
+    {
+        { 0x03, 0x21, 0x79, 0x4b, 0x73, 0x94, 0x18, 0xc2,
+          0x4e, 0x7c, 0x2e, 0x56, 0x52, 0x74, 0x79, 0x1c,
+          0x4b, 0xe7, 0x49, 0x75, 0x2a, 0xd2, 0x34, 0xed,
+          0x56, 0xcb, 0x0a, 0x63, 0x47, 0x43, 0x0c, 0x6b },
+        { 0x36 }
+    };
+
+    uint8_t len[2] = {32, 1};
+
+    uint8_t expect[2][20] =
+    {
+        { 0xb8, 0x99, 0x62, 0xc9, 0x4d, 0x60, 0xf6, 0xa3, 0x32, 0xfd, 
+          0x60, 0xf6, 0xf0, 0x7d, 0x4f, 0x03, 0x2a, 0x58, 0x6b, 0x76 },
+        { 0xc1, 0xdf, 0xd9, 0x6e, 0xea, 0x8c, 0xc2, 0xb6, 0x27, 0x85, 
+          0x27, 0x5b, 0xca, 0x38, 0xac, 0x26, 0x12, 0x56, 0xe2, 0x78 }
+    };
+
+    uint8_t output[20];
+
+    mbedtls_sha1_context ctx;
+
+    mbedtls_sha1_init(&ctx);
+
+    /*
+     * SHA-1
+     */
+    mbedtls_printf("  SHA1 note: alternative implementation, VI Data.\n");
+
+
+    for (index = 0; index < 2; index++) {
+        mbedtls_printf("  SHA-1 test #%d: ", index); 
+        if ((ret = mbedtls_sha1_starts(&ctx)) != 0) {
+            goto fail;
+        }
+
+            ret = mbedtls_sha1_update(&ctx, input[index], len[index]);
+            if (ret != 0) {
+                goto fail;
+            }
+
+        if ((ret = mbedtls_sha1_finish(&ctx, output)) != 0) {
+            goto fail;
+        }
+
+        //print the output
+        printf("##############print the output in byte\n");
+        printf("0x");
+        for(i=0; i<20; i++)
+        {
+            printf("%02x", output[i]);
+        }
+        printf("\n");
+        printf("##############\n");
+
+        if (memcmp(output, expect[index], 20) != 0) {
+            ret = 1;
+            goto fail;
+        }
+
+        if (verbose != 0) {
+            mbedtls_printf("passed\n");
+        }
+    }
+
+    if (verbose != 0) {
+        mbedtls_printf("\n");
+    }
+
+    goto exit;
+
+fail:
+    if (verbose != 0) {
+        mbedtls_printf("failed\n");
+    }
+
+exit:
+    mbedtls_sha1_free(&ctx);
+
+    return ret;
+}
 #endif /* MBEDTLS_SELF_TEST */
 
 #endif /* MBEDTLS_SHA1_C */
