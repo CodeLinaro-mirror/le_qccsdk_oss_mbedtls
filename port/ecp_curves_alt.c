@@ -3,6 +3,13 @@
  * SPDX-License-Identifier: BSD-3-Clause-Clear
  */
 
+/*
+ *  Elliptic curves over GF(p): curve-specific data and functions
+ *
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ */
+
 #include "common.h"
 
 #if !defined(MBEDTLS_ECP_WITH_MPI_UINT)
