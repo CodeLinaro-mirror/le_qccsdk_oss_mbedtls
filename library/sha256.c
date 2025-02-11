@@ -934,6 +934,7 @@ int mbedtls_sha256_self_test(int verbose)
 {
 #if defined(MBEDTLS_SHA256_ALT)
         mbedtls_printf("  SHA256 note: alternative implementation.\n");
+//        mbedtls_printf("  DXE mode.\n");
 #else
         mbedtls_printf("  SHA256 note: built-in implementation.\n");
 #endif

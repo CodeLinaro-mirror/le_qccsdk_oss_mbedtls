@@ -79,8 +79,11 @@ void mbedtls_ccm_free( mbedtls_ccm_context *ctx )
         return;
 
     mbedtls_aes_free(ctx->aes_ctx);
+    mbedtls_free(ctx->aes_ctx);
+    ctx->aes_ctx = NULL;
     if (ctx->data_buf) {
         mbedtls_free(ctx->data_buf);
+        ctx->data_buf = NULL;
     }
     mbedtls_platform_zeroize( ctx, (size_t)sizeof( mbedtls_ccm_context ) );
 }
@@ -322,6 +325,7 @@ int mbedtls_ccm_set_lengths( mbedtls_ccm_context *ctx,
     if (ctx->data_buf_len < new_data_buf_len) {
         if (ctx->data_buf) {
             mbedtls_free(ctx->data_buf);
+            ctx->data_buf = NULL;
         }
         ctx->data_buf = mbedtls_calloc(1, new_data_buf_len);
         if (ctx->data_buf == NULL) {
@@ -408,7 +412,8 @@ int mbedtls_ccm_update( mbedtls_ccm_context *ctx,
    /* Copy ciphertext for encrypt; copy plaintext for decrypt */
     memcpy(output, &ctx->data_buf[ctx->payload_offset], input_len);
     if (aes_ctx->dir == CEML_CIPHER_ENCRYPT){
-        memcpy(tag, &ctx->data_buf[ctx->payload_offset + input_len], ctx->tag_len);
+        //memcpy(tag, &ctx->data_buf[ctx->payload_offset + input_len], ctx->tag_len);
+        memcpy(output+input_len, &ctx->data_buf[in_len], ctx->tag_len);
     }
     else{
         if(!is_tag_filled) {

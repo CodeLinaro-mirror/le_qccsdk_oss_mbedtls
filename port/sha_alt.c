@@ -85,7 +85,7 @@ int qcom_hash_starts( crypto_digest_qcc_t *ctx )
     CeMLHashAlgoType tag = ctx->alg_type;
     
     if (ctx->is_ceml_initialized) {
-        printf("now to callqcom_hash_reset\n");
+        //printf("now to callqcom_hash_reset\n");
         qcom_hash_reset(ctx,tag);
     }
    

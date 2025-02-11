@@ -71,7 +71,7 @@ void mbedtls_aes_free( mbedtls_aes_context *aes_ctx )
             mbedtls_free(cli_ctx);
             ((CeMLCntxHandle *)ctx)->pClientCtxt = NULL;
         }
-        mbedtls_platform_zeroize(aes_ctx, (size_t)sizeof(mbedtls_aes_context));
+        //mbedtls_platform_zeroize(aes_ctx, (size_t)sizeof(mbedtls_aes_context));
     }
 }
 

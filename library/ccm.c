@@ -94,6 +94,7 @@ void mbedtls_ccm_free(mbedtls_ccm_context *ctx)
     }
     mbedtls_cipher_free(&ctx->cipher_ctx);
     mbedtls_platform_zeroize(ctx, sizeof(mbedtls_ccm_context));
+    CeMLDeInit();
 }
 
 #define CCM_STATE__CLEAR                0
@@ -635,6 +636,10 @@ static const unsigned char res_test_data[NB_TESTS][CCM_SELFTEST_CT_MAX_LEN] = {
 
 int mbedtls_ccm_self_test(int verbose)
 {
+#if defined(MBEDTLS_CCM_ALT) //do not merge this line
+    mbedtls_printf("  CCM note: alternative implementation.\n");
+//    mbedtls_printf("            DXE mode.\n");
+#endif /* MBEDTLS_CCM_ALT */
     mbedtls_ccm_context ctx;
     /*
      * Some hardware accelerators require the input and output buffers
