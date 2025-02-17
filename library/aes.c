@@ -1887,6 +1887,7 @@ int mbedtls_aes_self_test(int verbose)
     if (verbose != 0) {
 #if defined(MBEDTLS_AES_ALT)
         mbedtls_printf("  AES note: alternative implementation.\n");
+        //mbedtls_printf("            DXE mode.\n");
 #else /* MBEDTLS_AES_ALT */
 #if defined(MBEDTLS_AESNI_HAVE_CODE)
 #if MBEDTLS_AESNI_HAVE_CODE == 1
