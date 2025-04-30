@@ -327,6 +327,10 @@ static int pkcs5_pbkdf2_hmac(mbedtls_md_context_t *ctx,
             // U1 xor U2
             //
             mbedtls_xor(work, work, md1, md_size);
+
+            if (i % 100 == 1) {
+                vTaskDelay(1);
+            }
         }
 
         use_len = (key_length < md_size) ? key_length : md_size;
