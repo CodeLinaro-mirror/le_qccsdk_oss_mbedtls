@@ -6,6 +6,14 @@
 /*
  *  Copyright The Mbed TLS Contributors
  *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  Qualcomm Innovation Center, Inc. chooses to take subject only to the terms of the Apache-2.0 license.
+ */
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ * SPDX-License-Identifier: BSD-3-Clause-Clear
+ *
+ * NOT A CONTRIBUTION
  */
 #ifndef MBEDTLS_OID_H
 #define MBEDTLS_OID_H
@@ -294,6 +302,13 @@
         MBEDTLS_OID_OIW_SECSIG_ALG "\x07"                                                                        /**< desCBC OBJECT IDENTIFIER ::= { iso(1) identified-organization(3) oiw(14) secsig(3) algorithms(2) 7 } */
 #define MBEDTLS_OID_DES_EDE3_CBC                MBEDTLS_OID_RSA_COMPANY "\x03\x07" /**< des-ede3-cbc OBJECT IDENTIFIER ::= { iso(1) member-body(2) -- us(840) rsadsi(113549) encryptionAlgorithm(3) 7 } */
 #define MBEDTLS_OID_AES                         MBEDTLS_OID_NIST_ALG "\x01" /** aes OBJECT IDENTIFIER ::= { joint-iso-itu-t(2) country(16) us(840) organization(1) gov(101) csor(3) nistAlgorithm(4) 1 } */
+
+/*
+ * AES-CBC cipher OIDs (RFC 3565)
+ */
+#define MBEDTLS_OID_AES128_CBC                  MBEDTLS_OID_AES "\x02" /** id-aes128-CBC OBJECT IDENTIFIER ::= { aes 2 } */
+#define MBEDTLS_OID_AES192_CBC                  MBEDTLS_OID_AES "\x16" /** id-aes192-CBC OBJECT IDENTIFIER ::= { aes 22 } */
+#define MBEDTLS_OID_AES256_CBC                  MBEDTLS_OID_AES "\x2a" /** id-aes256-CBC OBJECT IDENTIFIER ::= { aes 42 } */
 
 /*
  * Key Wrapping algorithms
