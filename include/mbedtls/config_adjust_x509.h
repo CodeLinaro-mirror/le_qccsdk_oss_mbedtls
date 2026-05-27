@@ -17,9 +17,19 @@
 /*
  *  Copyright The Mbed TLS Contributors
  *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  Qualcomm Innovation Center, Inc. chooses to take subject only to the terms of the Apache-2.0 license.
+ */
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ * SPDX-License-Identifier: BSD-3-Clause-Clear
+ *
+ * NOT A CONTRIBUTION
  */
 
 #ifndef MBEDTLS_CONFIG_ADJUST_X509_H
 #define MBEDTLS_CONFIG_ADJUST_X509_H
+
+#define MBEDTLS_X509_CRL_PARSE_C
 
 #endif /* MBEDTLS_CONFIG_ADJUST_X509_H */

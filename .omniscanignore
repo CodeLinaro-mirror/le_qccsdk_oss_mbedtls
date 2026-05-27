@@ -1,0 +1,26 @@
+# Directories to ignore
+3rdparty/
+cmake/
+configs/
+docs/
+doxygen/
+.github/
+programs/
+scripts/
+tests/
+visualc/
+ChangeLog.d/
+
+# Files to ignore
+CMakeLists.txt
+Makefile
+ChangeLog
+BRANCHES.md
+BUGS.md
+CONTRIBUTING.md
+SECURITY.md
+SUPPORT.md
+README.md
+LICENSE
+DartConfiguration.tcl
+dco.txt
