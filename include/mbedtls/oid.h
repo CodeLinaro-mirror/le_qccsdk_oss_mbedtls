@@ -10,10 +10,9 @@
  *  Qualcomm Innovation Center, Inc. chooses to take subject only to the terms of the Apache-2.0 license.
  */
 /*
+ * Changes from Qualcomm Technologies, Inc. are provided under the following license:
  * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  * SPDX-License-Identifier: BSD-3-Clause-Clear
- *
- * NOT A CONTRIBUTION
  */
 #ifndef MBEDTLS_OID_H
 #define MBEDTLS_OID_H
