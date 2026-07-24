@@ -7,7 +7,7 @@
  *  Copyright The Mbed TLS Contributors
  *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
  *
- *  Qualcomm Innovation Center, Inc. chooses to take subject only to the terms of the Apache-2.0 license.
+ *  Qualcomm Technologies, Inc. chooses to take subject only to the terms of the Apache-2.0 license.
  */
 /*
  * Changes from Qualcomm Technologies, Inc. are provided under the following license:
