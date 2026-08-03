@@ -2,9 +2,17 @@
  * \file oid.c
  *
  * \brief Object Identifier (OID) database
- *
+ */
+/*
  *  Copyright The Mbed TLS Contributors
  *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  Qualcomm Technologies, Inc. chooses to take subject only to the terms of the Apache-2.0 license.
+ */
+/*
+ * Changes from Qualcomm Technologies, Inc. are provided under the following license:
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ * SPDX-License-Identifier: BSD-3-Clause-Clear
  */
 
 #include "common.h"
@@ -682,6 +690,18 @@ static const oid_cipher_alg_t oid_cipher_alg[] =
     {
         OID_DESCRIPTOR(MBEDTLS_OID_DES_EDE3_CBC,         "des-ede3-cbc", "DES-EDE3-CBC"),
         MBEDTLS_CIPHER_DES_EDE3_CBC,
+    },
+    {
+        OID_DESCRIPTOR(MBEDTLS_OID_AES128_CBC,           "aes128-CBC",   "AES-128-CBC"),
+        MBEDTLS_CIPHER_AES_128_CBC,
+    },
+    {
+        OID_DESCRIPTOR(MBEDTLS_OID_AES192_CBC,           "aes192-CBC",   "AES-192-CBC"),
+        MBEDTLS_CIPHER_AES_192_CBC,
+    },
+    {
+        OID_DESCRIPTOR(MBEDTLS_OID_AES256_CBC,           "aes256-CBC",   "AES-256-CBC"),
+        MBEDTLS_CIPHER_AES_256_CBC,
     },
     {
         NULL_OID_DESCRIPTOR,
